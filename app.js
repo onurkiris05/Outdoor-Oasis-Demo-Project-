@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
+const ejsMate = require("ejs-mate");
 const app = express();
 const PORT = process.env.PORT || 8080;
 const Campground = require("./models/campground");
@@ -15,6 +16,7 @@ mongoose
     console.error("Mongo connection failed!", err);
   });
 
+app.engine("ejs", ejsMate);
 app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "ejs");
 
