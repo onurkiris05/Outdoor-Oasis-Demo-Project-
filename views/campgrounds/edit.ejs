@@ -3,7 +3,12 @@
 <div class="row">
   <h1 class="text-center">Edit Campground</h1>
   <div class="col-6 offset-3">
-    <form action="/campgrounds/<%= camp._id %>?_method=PUT" method="POST">
+    <form
+      action="/campgrounds/<%= camp._id %>?_method=PUT"
+      method="POST"
+      class="validated-form"
+      novalidate
+    >
       <div class="mb-3">
         <label class="form-label" for="title">Title</label>
         <input
@@ -13,7 +18,9 @@
           name="campground[title]"
           value="<%= camp.title %>"
           placeholder="Type title"
+          required
         />
+        <div class="valid-feedback">Looks good!</div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="location">Location</label>
@@ -24,7 +31,9 @@
           name="campground[location]"
           value="<%= camp.location %>"
           placeholder="Type location"
+          required
         />
+        <div class="valid-feedback">Looks good!</div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="image">Image URL</label>
@@ -35,7 +44,9 @@
           name="campground[image]"
           value="<%= camp.image %>"
           placeholder="Type image URL"
+          required
         />
+        <div class="valid-feedback">Looks good!</div>
         <img src="<%= camp.image %>" alt="" class="img-fluid col-10 offset-1" />
       </div>
       <div class="mb-3">
@@ -50,8 +61,10 @@
             value="<%= camp.price %>"
             aria-label="Amount (to the nearest dollar)"
             aria-describedby="price-label"
+            required
           />
           <span class="input-group-text">.00</span>
+          <div class="valid-feedback">Looks good!</div>
         </div>
       </div>
       <div class="mb-3">
@@ -62,9 +75,11 @@
             id="description"
             name="campground[description]"
             aria-label="description"
+            required
           >
-<%= camp.description %></textarea
+ <%= camp.description %> </textarea
           >
+          <div class="valid-feedback">Looks good!</div>
         </div>
       </div>
       <div class="mb-3">
