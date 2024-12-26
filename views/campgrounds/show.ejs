@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate') %>
 
 <div class="row">
-  <div class="col-6 offset-3">
+  <div class="col-6">
     <div class="card mb-3">
       <img src="<%= camp.image %>" class="card-img-top" alt="..." />
       <div class="card-body">
@@ -18,9 +18,61 @@
           <button class="btn btn-danger">Delete</button>
         </form>
       </div>
+
       <div class="card-footer text-body-secondary">
         <a class="card-link btn btn-outline-secondary" href="/campgrounds">All Campgrounds</a>
       </div>
     </div>
+  </div>
+
+  <div class="col-6">
+    <h2 class="card-title">Reviews</h2>
+    <div class="m-3">
+      <h5 class="card-title">Leave a Review</h5>
+      <form
+        action="/campgrounds/<%= camp._id %>/reviews"
+        method="POST"
+        class="validated-form"
+        novalidate
+      >
+        <label class="form-label" for="rating">Rating</label>
+        <input
+          class="form-range"
+          min="1"
+          max="5"
+          value="1"
+          type="range"
+          name="review[rating]"
+          id="rating"
+        />
+        <div>
+          <label class="form-label" for="review">Review:</label>
+          <textarea
+            class="form-control mb-2"
+            name="review[body]"
+            id="review"
+            placeholder="Type your review"
+            required
+          ></textarea>
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+        <button class="btn btn-success">Submit</button>
+      </form>
+    </div>
+    <% for (const review of camp.reviews) { %>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">User Name</h5>
+        <p class="text-muted">Rating: <%= review.rating %></p>
+        <p class="card-text">Review: <%= review.body %></p>
+        <form
+          action="/campgrounds/<%= camp._id %>/reviews/<%= review._id %>?_method=DELETE"
+          method="POST"
+        >
+          <button class="btn btn-sm btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+    <% } %>
   </div>
 </div>
