@@ -14,7 +14,7 @@
   </head>
   <body class="d-flex flex-column vh-100">
     <%- include('../partials/navbar') %>
-    <main class="container mt-5"><%- body %></main>
+    <main class="container mt-5"><%- include('../partials/flash') %><%- body %></main>
     <%- include('../partials/footer') %>
 
     <script
@@ -22,28 +22,6 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-
-    <script>
-      (() => {
-        "use strict";
-
-        const forms = document.querySelectorAll(".validated-form");
-
-        Array.from(forms).forEach((form) => {
-          form.addEventListener(
-            "submit",
-            (event) => {
-              if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-              }
-
-              form.classList.add("was-validated");
-            },
-            false
-          );
-        });
-      })();
-    </script>
+    <script src="/JS/validateForms.js"></script>
   </body>
 </html>

@@ -11,6 +11,7 @@ const Campground = require("../models/campground");
 const ExpressError = require("../utils/ExpressError");
 const handleAsync = require("../utils/handleAsync");
 
+// Validate review data
 const validateReview = (req, res, next) => {
   const { error } = reviewSchema.validate(req.body);
   if (error) {
@@ -21,6 +22,7 @@ const validateReview = (req, res, next) => {
   }
 };
 
+// Create a new review
 router.post(
   "/",
   validateReview,
@@ -30,16 +32,19 @@ router.post(
     camp.reviews.push(review);
     await camp.save();
     await review.save();
+    req.flash("success", "Review successfully added!");
     res.redirect(`/campgrounds/${camp._id}`);
   })
 );
 
+// Delete a review
 router.delete(
   "/:reviewId",
   handleAsync(async (req, res) => {
     const { id, reviewId } = req.params;
     await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
     await Review.findByIdAndDelete(reviewId);
+    req.flash("success", "Review successfully deleted!");
     res.redirect(`/campgrounds/${id}`);
   })
 );
