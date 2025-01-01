@@ -32,8 +32,8 @@ app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "/public")));
 app.use(methodOverride("_method"));
+app.use(express.static(path.join(__dirname, "/public")));
 
 // Session configuration
 const sessionConfig = {
@@ -58,7 +58,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// Middleware to set flash messages
+// Middleware to process user data
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
@@ -84,6 +84,9 @@ app.use((err, req, res, next) => {
 
 // Catch-all route for 404 errors
 app.all(/(.*)/, (req, res, next) => {
+  console.log(`Route not found: ${req.method} ${req.url}`);
+  console.log("Session data:", req.session);
+  console.log("Headers:", req.headers);
   next(new ExpressError("Page not found", 404));
 });
 

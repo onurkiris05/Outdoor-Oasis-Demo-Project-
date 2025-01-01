@@ -42,7 +42,14 @@ router.post(
   (req, res) => {
     req.flash("success", "Welcome back!");
     const redirectUrl = res.locals.returnTo || "/campgrounds";
-    res.redirect(redirectUrl);
+
+    // Check if the redirectUrl contains a query string with a _method key
+    if (redirectUrl.includes("_method")) {
+      console.log(`Redirecting with POST method to: ${redirectUrl}`);
+      res.redirect(307, redirectUrl);
+    } else {
+      res.redirect(redirectUrl);
+    }
   }
 );
 

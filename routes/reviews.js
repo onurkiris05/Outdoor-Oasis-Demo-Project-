@@ -4,31 +4,20 @@ const express = require("express");
 // In this case, we need access to the campground 'id' parameter defined in app.js
 // Without mergeParams, req.params.id would be undefined in our routes
 const router = express.Router({ mergeParams: true });
-
-const { reviewSchema } = require("../schemas");
 const Review = require("../models/review");
 const Campground = require("../models/campground");
-const ExpressError = require("../utils/ExpressError");
 const handleAsync = require("../utils/handleAsync");
-
-// Validate review data
-const validateReview = (req, res, next) => {
-  const { error } = reviewSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((e) => e.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
+const { validateReview, isLoggedIn, isReviewAuthor } = require("../middlewares");
 
 // Create a new review
 router.post(
   "/",
+  isLoggedIn,
   validateReview,
   handleAsync(async (req, res) => {
     const camp = await Campground.findById(req.params.id);
     const review = new Review(req.body.review);
+    review.author = req.user._id;
     camp.reviews.push(review);
     await camp.save();
     await review.save();
@@ -40,6 +29,8 @@ router.post(
 // Delete a review
 router.delete(
   "/:reviewId",
+  isLoggedIn,
+  isReviewAuthor,
   handleAsync(async (req, res) => {
     const { id, reviewId } = req.params;
     await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });

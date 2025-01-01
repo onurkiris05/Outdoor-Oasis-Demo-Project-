@@ -8,16 +8,19 @@
         <h5 class="card-title"><%= camp.title %></h5>
         <p class="text-muted"><%= camp.location %></p>
         <p class="card-text"><%= camp.description %></p>
+        <p class="text-muted">Submitted by <%= camp.author.username %></p>
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item">$<%= camp.price %>/night</li>
       </ul>
+      <% if(currentUser && camp.author.equals(currentUser._id)) { %>
       <div class="card-body">
         <a class="card-link btn btn-info" href="/campgrounds/<%= camp._id %>/edit">Edit</a>
         <form class="d-inline" action="/campgrounds/<%= camp._id %>?_method=DELETE" method="POST">
           <button class="btn btn-danger">Delete</button>
         </form>
       </div>
+      <% } %>
 
       <div class="card-footer text-body-secondary">
         <a class="card-link btn btn-outline-secondary" href="/campgrounds">All Campgrounds</a>
@@ -28,6 +31,7 @@
   <div class="col-6">
     <h2 class="card-title">Reviews</h2>
     <div class="m-3">
+      <% if(currentUser) { %>
       <h5 class="card-title">Leave a Review</h5>
       <form
         action="/campgrounds/<%= camp._id %>/reviews"
@@ -58,19 +62,22 @@
         </div>
         <button class="btn btn-success">Submit</button>
       </form>
+      <% } %>
     </div>
     <% for (const review of camp.reviews) { %>
     <div class="card mb-3">
       <div class="card-body">
-        <h5 class="card-title">User Name</h5>
-        <p class="text-muted">Rating: <%= review.rating %></p>
-        <p class="card-text">Review: <%= review.body %></p>
+        <h5 class="card-title"><span class="text-muted">by</span> <%= review.author.username %></h5>
+        <h6 class="text-muted">Rating: <%= review.rating %></h6>
+        <p class="card-text bg-light text-bg-light rounded p-3"><%= review.body %></p>
+        <% if(currentUser && review.author.equals(currentUser._id)) { %>
         <form
           action="/campgrounds/<%= camp._id %>/reviews/<%= review._id %>?_method=DELETE"
           method="POST"
         >
           <button class="btn btn-sm btn-danger">Delete</button>
         </form>
+        <% } %>
       </div>
     </div>
     <% } %>
