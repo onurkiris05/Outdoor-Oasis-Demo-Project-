@@ -27,15 +27,15 @@ const seedDB = async () => {
       price,
       images: [
         {
-          url: "https://res.cloudinary.com/djzahz5ym/image/upload/v1735810886/Outdoor%20Oasis/wfz65cnyiiqe371qxrtm.jpg",
+          url: "https://res.cloudinary.com/djzahz5ym/image/upload/v1735836009/Outdoor%20Oasis/k08a06rpxto8hezdmsxi.jpg",
           filename: "Outdoor Oasis/wfz65cnyiiqe371qxrtm",
         },
         {
-          url: "https://res.cloudinary.com/djzahz5ym/image/upload/v1735810885/Outdoor%20Oasis/vziwtpc90ch3kogqvh6h.jpg",
+          url: "https://res.cloudinary.com/djzahz5ym/image/upload/v1735836009/Outdoor%20Oasis/w0zzjlwdutux9gigt5ig.jpg",
           filename: "Outdoor Oasis/vziwtpc90ch3kogqvh6h",
         },
         {
-          url: "https://res.cloudinary.com/djzahz5ym/image/upload/v1735810886/Outdoor%20Oasis/bk15xwfnpacyphqbrle6.jpg",
+          url: "https://res.cloudinary.com/djzahz5ym/image/upload/v1735836008/Outdoor%20Oasis/kbqv32aoazx2bt19aqif.jpg",
           filename: "Outdoor Oasis/bk15xwfnpacyphqbrle6",
         },
       ],
