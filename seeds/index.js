@@ -23,9 +23,22 @@ const seedDB = async () => {
       author: "6774e3babe7e91f84b227097",
       location: `${c.city}, ${c.state}`,
       title: `${sample(descriptors)} ${sample(places)}`,
-      image: `https://picsum.photos/400?random=${Math.random()}`,
       description: `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste officia mollitia quaerat qui? Suscipit, recusandae ipsam voluptatem natus eligendi sequi similique exercitationem quod maiores voluptatum quae minima, facilis at. Similique?`,
       price,
+      images: [
+        {
+          url: "https://res.cloudinary.com/djzahz5ym/image/upload/v1735810886/Outdoor%20Oasis/wfz65cnyiiqe371qxrtm.jpg",
+          filename: "Outdoor Oasis/wfz65cnyiiqe371qxrtm",
+        },
+        {
+          url: "https://res.cloudinary.com/djzahz5ym/image/upload/v1735810885/Outdoor%20Oasis/vziwtpc90ch3kogqvh6h.jpg",
+          filename: "Outdoor Oasis/vziwtpc90ch3kogqvh6h",
+        },
+        {
+          url: "https://res.cloudinary.com/djzahz5ym/image/upload/v1735810886/Outdoor%20Oasis/bk15xwfnpacyphqbrle6.jpg",
+          filename: "Outdoor Oasis/bk15xwfnpacyphqbrle6",
+        },
+      ],
     });
     await camp.save();
   }
