@@ -58,6 +58,7 @@
   </div>
 
   <div class="col-6">
+    <div class="mb-4" id="map" data-camp="<%= encodeURIComponent(JSON.stringify(camp)) %>"></div>
     <h2 class="card-title">Reviews</h2>
     <div class="mb-5">
       <% if(currentUser) { %>
@@ -124,3 +125,8 @@
     <% } %>
   </div>
 </div>
+
+<script>
+  const maptilerApiKey = "<%- process.env.MAPTILER_API_KEY %>";
+</script>
+<script src="/JS/showPageMap.js"></script>
