@@ -1,9 +1,14 @@
 <% layout('layouts/boilerplate') %>
 
-<div class="row">
-  <h1 class="text-center">Register</h1>
-  <div class="col-4 offset-4">
-    <form action="/register" method="POST" novalidate class="validated-form">
+<div class="row justify-content-center mt-5">
+  <h1 class="text-center mb-4">Register</h1>
+  <div class="col-md-6 col-lg-4">
+    <form
+      action="/register"
+      method="POST"
+      novalidate
+      class="validated-form p-4 border rounded-3 bg-light shadow-sm"
+    >
       <div class="mb-3">
         <label class="form-label" for="username">Username:</label>
         <input
@@ -13,6 +18,7 @@
           name="username"
           placeholder="Type username"
           required
+          autofocus
         />
         <div class="valid-feedback">Looks good!</div>
       </div>
@@ -40,10 +46,12 @@
         />
         <div class="valid-feedback">Looks good!</div>
       </div>
-      <div class="mb-3">
-        <button class="btn btn-primary">Register</button>
+      <div class="d-grid">
+        <button class="btn btn-primary btn-block">Register</button>
       </div>
     </form>
-    <a href="/">Return Home</a>
+    <div class="text-center mt-3">
+      <a href="/">Return Home</a>
+    </div>
   </div>
 </div>

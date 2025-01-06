@@ -1,9 +1,9 @@
 maptilersdk.config.apiKey = maptilerApiKey;
-const mapContainer = document.getElementById("map");
+const mapContainer = document.getElementById("cluster-map");
 const campgrounds = JSON.parse(decodeURIComponent(mapContainer.dataset.campgrounds));
 
 var map = new maptilersdk.Map({
-  container: "map",
+  container: "cluster-map",
   zoom: 3.5,
   center: [10, 47],
   style: maptilersdk.MapStyle.TOPO,
