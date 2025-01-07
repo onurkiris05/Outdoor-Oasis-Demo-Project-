@@ -2,8 +2,8 @@ const Campground = require("../models/campground");
 const cities = require("./cities");
 const { descriptors, places, stockImages } = require("./seedHelpers");
 
-const adminID =
-  process.env.NODE_ENV !== "production" ? process.env.LOCAL_ADMIN : process.env.CLOUD_ADMIN;
+// const adminID = "6774e3babe7e91f84b227097"; // Local admin ID
+const adminID = process.env.CLOUD_ADMIN;
 
 const getRandomImages = (images, num) => {
   const randomImages = [];
@@ -46,7 +46,7 @@ const checkAndSeedDB = async () => {
   if (campgroundCount === 0) {
     console.log("No campgrounds found. Seeding the database...");
     await seedDB().then(() => {
-      console.log("Mongo connection closed after seeding sequence!");
+      console.log("Seeding sequence completed!");
     });
   } else {
     console.log("Database already seeded. Skipping seeding process.");
