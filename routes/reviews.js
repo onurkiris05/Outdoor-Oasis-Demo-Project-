@@ -5,7 +5,7 @@ const express = require("express");
 // Without mergeParams, req.params.id would be undefined in our routes
 const router = express.Router({ mergeParams: true });
 const handleAsync = require("../utils/handleAsync");
-const { validateReview, isLoggedIn, isReviewAuthor } = require("../middlewares");
+const { validateReview, isLoggedIn, isReviewAuthor } = require("../middleware");
 const reviews = require("../controllers/reviews");
 
 // Create a new review

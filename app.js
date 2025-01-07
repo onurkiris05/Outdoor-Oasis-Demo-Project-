@@ -3,34 +3,23 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const express = require("express");
-const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
-const session = require("express-session");
 const flash = require("connect-flash");
 const ExpressError = require("./utils/ExpressError");
 const campgroundRoutes = require("./routes/campgrounds");
 const reviewRoutes = require("./routes/reviews");
 const userRoutes = require("./routes/users");
-const passport = require("passport");
-const LocalStrategy = require("passport-local");
-const User = require("./models/user");
 const mongoSanitize = require("express-mongo-sanitize");
-const helmet = require("helmet");
+const checkAndSeedDB = require("./seeds");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Database connection
-mongoose
-  .connect("mongodb://127.0.0.1:27017/outdoor-oasis")
-  .then(() => {
-    console.log("Mongo connection opened!");
-  })
-  .catch((err) => {
-    console.error("Mongo connection failed!", err);
-  });
+require("./config/database");
+checkAndSeedDB();
 
 // App configuration
 app.engine("ejs", ejsMate);
@@ -41,69 +30,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(mongoSanitize());
-app.use(helmet());
-
-const scriptSrcUrls = [
-  "https://stackpath.bootstrapcdn.com/",
-  "https://kit.fontawesome.com/",
-  "https://cdnjs.cloudflare.com/",
-  "https://cdn.jsdelivr.net",
-  "https://cdn.maptiler.com/",
-];
-const styleSrcUrls = [
-  "https://kit-free.fontawesome.com/",
-  "https://fonts.googleapis.com/",
-  "https://cdn.jsdelivr.net",
-  "https://use.fontawesome.com/",
-  "https://cdn.maptiler.com/",
-];
-const connectSrcUrls = ["https://api.maptiler.com/"];
-const fontSrcUrls = [];
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: [],
-      connectSrc: ["'self'", ...connectSrcUrls],
-      scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
-      styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
-      workerSrc: ["'self'", "blob:"],
-      objectSrc: [],
-      imgSrc: [
-        "'self'",
-        "blob:",
-        "data:",
-        "https://res.cloudinary.com/djzahz5ym/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
-        "https://images.unsplash.com/",
-        "https://api.maptiler.com/",
-      ],
-      fontSrc: ["'self'", ...fontSrcUrls],
-    },
-  })
-);
+app.use(require("./middleware/csp"));
 
 // Session configuration
-const sessionConfig = {
-  name: "session",
-  secret: "3kjF9^&$fj3@9fk92jf0!smxR&f!R9n7&kJ29",
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    httpOnly: true,
-    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-    maxAge: 1000 * 60 * 60 * 24 * 7,
-  },
-};
-
-app.use(session(sessionConfig));
+app.use(require("./config/session"));
 app.use(flash());
 
 // Passport configuration
+const passport = require("./middleware/passport");
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
 // Middleware to process user data
 app.use((req, res, next) => {
