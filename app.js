@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 8080;
 
 // Database connection
 require("./config/database");
-checkAndSeedDB();
+// await checkAndSeedDB();
 
 // App configuration
 app.engine("ejs", ejsMate);
