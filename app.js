@@ -109,7 +109,6 @@ app.use((err, req, res, next) => {
   console.error("Error occurred:", err.message);
   console.error("Stack trace:", err.stack);
   if (res.headersSent) {
-    console.warn("Headers already sent for:", req.method, req.url);
     return next(err);
   }
   console.log("Middleware(err-500): Headers sent before res.status:", res.headersSent);
