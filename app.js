@@ -96,8 +96,6 @@ app.use((req, res, next) => {
 
 // Routes
 app.get("/", (req, res) => {
-  console.log(`Home route: ${req.method} ${req.url} - Request received.`);
-  console.log("Home route: Headers sent before res.redirect:", res.headersSent);
   res.render("home");
 });
 
@@ -123,7 +121,6 @@ app.all(/(.*)/, (req, res, next) => {
   console.log(`Route not found: ${req.method} ${req.url}`);
   console.log("Session data:", req.session);
   console.log("Headers:", req.headers);
-  console.log("Catch-all route: Headers sent before next(new ExpressError):", res.headersSent);
   next(new ExpressError("Page not found", 404));
 });
 
