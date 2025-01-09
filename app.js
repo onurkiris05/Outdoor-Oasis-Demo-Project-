@@ -43,14 +43,18 @@ app.use(passport.session());
 
 // Middleware to process user data
 app.use((req, res, next) => {
+  console.log(`Middleware(res.locals): ${req.method} ${req.url} - Request received.`);
   res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  console.log("Middleware(res.locals): Headers sent before next() call:", res.headersSent);
   next();
 });
 
 // Routes
 app.get("/", (req, res) => {
+  console.log(`Home route: ${req.method} ${req.url} - Request received.`);
+  console.log("Home route: Headers sent before res.redirect:", res.headersSent);
   res.render("home");
 });
 
@@ -60,9 +64,15 @@ app.use("/", userRoutes);
 
 // Error handling
 app.use((err, req, res, next) => {
-  const { statusCode = 500 } = err;
-  if (!err.message) err.message = "Something went wrong!";
-  res.status(statusCode).render("error", { err });
+  console.log(`Middleware(err-500): ${req.method} ${req.url} - Request received.`);
+  console.error("Error occurred:", err.message);
+  console.error("Stack trace:", err.stack);
+  if (res.headersSent) {
+    console.warn("Headers already sent for:", req.method, req.url);
+    return next(err);
+  }
+  console.log("Middleware(err-500): Headers sent before res.status:", res.headersSent);
+  res.status(err.statusCode || 500).render("error", { err });
 });
 
 // Catch-all route for 404 errors
@@ -70,6 +80,7 @@ app.all(/(.*)/, (req, res, next) => {
   console.log(`Route not found: ${req.method} ${req.url}`);
   console.log("Session data:", req.session);
   console.log("Headers:", req.headers);
+  console.log("Catch-all route: Headers sent before next(new ExpressError):", res.headersSent);
   next(new ExpressError("Page not found", 404));
 });
 
