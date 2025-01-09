@@ -1,4 +1,4 @@
-const helmet = require("helmet");
+const helmetBase = require("helmet");
 
 const scriptSrcUrls = [
   "https://stackpath.bootstrapcdn.com/",
@@ -17,7 +17,7 @@ const styleSrcUrls = [
 const connectSrcUrls = ["https://api.maptiler.com/"];
 const fontSrcUrls = [];
 
-const csp = helmet.contentSecurityPolicy({
+const helmet = helmetBase.contentSecurityPolicy({
   directives: {
     defaultSrc: [],
     connectSrc: ["'self'", ...connectSrcUrls],
@@ -37,4 +37,4 @@ const csp = helmet.contentSecurityPolicy({
   },
 });
 
-module.exports = csp;
+module.exports = helmet;
